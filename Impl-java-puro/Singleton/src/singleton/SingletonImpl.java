@@ -1,4 +1,4 @@
-package impl.java.puro.singleton;
+package singleton;
 
 public class SingletonImpl {
 

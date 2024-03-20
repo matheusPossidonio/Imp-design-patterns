@@ -7,6 +7,6 @@
 
 ![alt text](image.png)
 
-- Demonstração do padrao singleton com uma execução de codigo, onde é mostrado que os dois obejtos apontam pra mesma instancia:
+- Demonstração do padrão singleton com uma execução de código, onde é mostrado que os dois objetos apontam para mesma instância:
 
 ![alt text](image-1.png)

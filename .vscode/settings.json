@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": [
+        "Impl-java-puro/Strategy/src",
+        "Impl-java-puro/Singleton/src",
+        "Impl-java-puro/Facade/src",
+        "Impl-java-spring/demo/src/main/java/com/example/demo"
+    ]
+}

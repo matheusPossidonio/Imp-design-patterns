@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +35,16 @@ public class ClienteRestController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
-		return ResponseEntity.ok(clienteService.buscarPorId(id));
+	public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+		try {
+			Cliente clienteExistente = clienteService.buscarPorId(id);
+			if (clienteExistente == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+			}
+			return ResponseEntity.ok(clienteExistente);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao processar a solicitação");
+		}
 	}
 
 	@PostMapping
@@ -45,14 +54,32 @@ public class ClienteRestController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente cliente) {
-		clienteService.atualizar(id, cliente);
-		return ResponseEntity.ok(cliente);
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Cliente cliente) {
+		try{
+			Cliente clienteExistente = clienteService.buscarPorId(id);
+			if(clienteExistente == null){
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+		  }
+		  clienteService.atualizar(id, cliente);
+		  return ResponseEntity.ok(cliente);
+
+		}catch(Exception e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao processar a solicitação");
+        }
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletar(@PathVariable Long id) {
-		clienteService.deletar(id);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<String> deletar(@PathVariable Long id) {
+		try{
+			Cliente clienteExistente = clienteService.buscarPorId(id);
+			if(clienteExistente == null){
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+		  }
+		  clienteService.deletar(id);
+		  return ResponseEntity.ok().build();
+
+		}catch(Exception e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao processar a solicitação");
+        }
 	}
 }

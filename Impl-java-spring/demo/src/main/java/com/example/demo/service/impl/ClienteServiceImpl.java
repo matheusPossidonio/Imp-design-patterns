@@ -29,7 +29,7 @@ public class ClienteServiceImpl implements ClienteService {
 	private EnderecoRepository enderecoRepository;
 	@Autowired
 	private ViaCepService viaCepService;
-	
+
 	// Strategy: Implementar os métodos definidos na interface.
 	// Facade: Abstrair integrações com subsistemas, provendo uma interface simples.
 
@@ -42,8 +42,12 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public Cliente buscarPorId(Long id) {
 		// Buscar Cliente por ID.
-		Optional<Cliente> cliente = clienteRepository.findById(id);
-		return cliente.get();
+		Optional<Cliente> clienteOptional = clienteRepository.findById(id);
+		if (clienteOptional.isPresent()) {
+			return clienteOptional.get();
+		} else {
+			return null; 
+		}
 	}
 
 	@Override
